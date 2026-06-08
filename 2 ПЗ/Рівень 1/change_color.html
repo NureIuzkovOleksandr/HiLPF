@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПЗ 2 - Змінити колір кнопки</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .button-group {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        #changeButton {
+            background-color: #ffffff;
+            color: #333333;
+            border: 2px solid #cccccc;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #changeButton:hover {
+            border-color: #888888;
+            transform: scale(1.05);
+        }
+
+        #changeButton:active {
+            transform: scale(0.95);
+        }
+
+        .info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .color-display {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+        }
+
+        .color-box {
+            width: 100px;
+            height: 100px;
+            margin: 10px auto;
+            border-radius: 5px;
+            border: 2px solid #999;
+            background-color: #ffffff;
+        }
+
+        .color-code {
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .loading {
+            display: none;
+            color: #667eea;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: #e74c3c;
+            background: #fadbd8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Змінити колір кнопки</h1>
+
+        <div class="button-group">
+            <button id="changeButton">Завантажити колір</button>
+            <div class="loading" id="loading">Завантаження...</div>
+            <div class="error" id="error"></div>
+        </div>
+
+        <div class="color-display">
+            <p>Поточний колір:</p>
+            <div class="color-box" id="colorBox"></div>
+            <div class="color-code" id="colorCode">#3498db</div>
+        </div>
+
+        <div class="info">
+            <p>Натисніть кнопку для завантаження нового кольору з JSON файлу</p>
+        </div>
+    </div>
+
+    <script>
+        async function loadColor() {
+            const button = document.getElementById('changeButton');
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const colorBox = document.getElementById('colorBox');
+            const colorCode = document.getElementById('colorCode');
+
+            try {
+                error.style.display = 'none';
+                loading.style.display = 'block';
+                button.disabled = true;
+
+                const response = await fetch('color.json');
+                if (!response.ok) {
+                    throw new Error('Помилка завантаження файлу кольору');
+                }
+                const text = await response.text();
+                const data = JSON.parse(text);
+
+                if (data && data.color) {
+                    const colorValue = data.color;
+
+                    button.style.color = colorValue;
+                    button.style.borderColor = colorValue;
+                    colorBox.style.backgroundColor = colorValue;
+                    colorCode.textContent = colorValue.toUpperCase();
+
+                    console.log('Колір завантажено:', colorValue);
+                } else {
+                    throw new Error('JSON не містить поле color');
+                }
+            } catch (err) {
+                error.style.display = 'block';
+                error.textContent = 'Помилка: ' + err.message;
+                console.error('Помилка завантаження:', err);
+            } finally {
+                loading.style.display = 'none';
+                button.disabled = false;
+            }
+        }
+
+        function getContrastColor(hexColor) {
+            const hex = hexColor.replace('#', '');
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+            return brightness > 155 ? '#000000' : '#FFFFFF';
+        }
+
+        document.getElementById('changeButton').addEventListener('click', loadColor);
+
+        window.addEventListener('load', () => {
+            console.log('Сторінка завантажена. Натисніть кнопку для зміни кольору.');
+        });
+    </script>
+</body>
+</html>

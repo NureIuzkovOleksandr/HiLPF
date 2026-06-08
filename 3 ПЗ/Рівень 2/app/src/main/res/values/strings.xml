@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Dice Game</string>
+    <string name="title_dice_game">Гра в кубики</string>
+    <string name="player1_label">Ім\'я гравця 1</string>
+    <string name="player2_label">Ім\'я гравця 2</string>
+    <string name="button_roll">Кинути кубики</string>
+    <string name="label_rolled">Випало: %s</string>
+    <string name="label_sum">Сума: %d</string>
+    <string name="result_draw">Нічия!</string>
+    <string name="result_winner">Переміг %s!</string>
+</resources>

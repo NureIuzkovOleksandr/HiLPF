@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Адмін панель{% endblock %}
+
+{% block content %}
+<h2>Адмін панель</h2>
+
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5>Всього користувачів</h5>
+                <h2>{{ total_users }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5>Консьєржів</h5>
+                <h2>{{ concierges }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger">
+            <div class="card-body">
+                <h5>Адмінів</h5>
+                <h2>{{ admins }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Користувачі</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Ім'я користувача</th>
+                            <th>Email</th>
+                            <th>Роль</th>
+                            <th>Дата реєстрації</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.get_role_display }}</td>
+                                <td>{{ user.date_joined }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Логи активності</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Користувач</th>
+                            <th>Активність</th>
+                            <th>Час</th>
+                            <th>IP адреса</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in activity_logs %}
+                            <tr>
+                                <td>{{ log.user.username }}</td>
+                                <td>{{ log.get_activity_type_display }}</td>
+                                <td>{{ log.timestamp }}</td>
+                                <td>{{ log.ip_address }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

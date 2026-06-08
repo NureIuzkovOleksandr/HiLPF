@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="title_calculator">Калькулятор ділення</string>
+    <string name="hint_input_a">Введіть перше число</string>
+    <string name="hint_input_b">Введіть друге число</string>
+    <string name="button_divide">Ділити</string>
+    <string name="button_clear">Очистити</string>
+    <string name="text_default_result">Результат буде тут</string>
+    <string name="error_empty_inputs">Будь ласка, введіть обидва числа</string>
+    <string name="error_division_by_zero">На нуль ділити не можна!</string>
+    <string name="text_error_division_by_zero">Помилка: ділення на нуль</string>
+    <string name="toast_calculation_done">Розрахунок виконано</string>
+    <string name="error_invalid_numbers">Помилка: введіть коректні числа</string>
+    <string name="text_error_format">Помилка формату</string>
+    <string name="result_pattern">%s ÷ %s = %s</string>
+</resources>

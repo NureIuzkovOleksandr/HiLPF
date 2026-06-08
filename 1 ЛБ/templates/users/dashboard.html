@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель керування{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Мої дані</h5>
+                <p><strong>Ім'я:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Телефон:</strong> {{ user.phone }}</p>
+                <p><strong>Роль:</strong> {{ role_display }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header">
+                <h5>Остання активність</h5>
+            </div>
+            <div class="card-body">
+                {% if activity_logs %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Тип активності</th>
+                                <th>Час</th>
+                                <th>IP адреса</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in activity_logs %}
+                                <tr>
+                                    <td>{{ log.get_activity_type_display }}</td>
+                                    <td>{{ log.timestamp }}</td>
+                                    <td>{{ log.ip_address }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Немає активності</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if is_staff %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <a href="{% url 'users:admin_panel' %}" class="btn btn-warning">Адмін панель</a>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
